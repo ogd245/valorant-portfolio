@@ -315,21 +315,7 @@ body {
   }
 }
 
-/* hide cursor EVERYWHERE */
-html, body, * {
-  cursor: none !important;
-}
-
-html, body, {
-  cursor: none !important;
-}
-
-/* specifically kill pointer styles */
-button,
-a,
-[role="button"],
-input,
-textarea,
-select {
+/* remove default cursor completely */
+html, body, *, *:hover {
   cursor: none !important;
 }
