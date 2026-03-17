@@ -5,21 +5,19 @@ export default function ShockwaveLoader() {
 
   useEffect(() => {
     let start: number | null = null;
-    const duration = 3000; // clean 3× slower
+    const duration = 3000;
 
     const animate = (timestamp: number) => {
       if (!start) start = timestamp;
 
       const progress = Math.min((timestamp - start) / duration, 1);
 
-      // slightly smoother than cubic, but not heavy
       const eased = 1 - Math.pow(1 - progress, 2.7);
-
-      // MUST stay high to avoid skipping
       const radius = eased * 150;
 
       if (loaderRef.current) {
         loaderRef.current.style.setProperty("--progress", `${radius}%`);
+        loaderRef.current.style.setProperty("--distort", `${1 - progress}`);
       }
 
       if (progress < 1) {
@@ -41,7 +39,27 @@ export default function ShockwaveLoader() {
 
   return (
     <div ref={loaderRef} className="loader">
+      {/* SVG DISTORTION FILTER */}
+      <svg className="distortion-svg">
+        <filter id="distortion">
+          <feTurbulence
+            type="turbulence"
+            baseFrequency="0.01"
+            numOctaves="2"
+            result="turbulence"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="turbulence"
+            scale="40"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
+
       <div className="ring" />
+      <div className="ring secondary" />
     </div>
   );
 }

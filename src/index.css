@@ -336,7 +336,6 @@ body {
   cursor: none;
 }
 
-/* Loader overlay */
 .loader {
   position: fixed;
   inset: 0;
@@ -344,10 +343,10 @@ body {
   pointer-events: none;
 
   --progress: 0%;
+  --distort: 20;
 
   background: #0b0f14;
 
-  /* smoother edge + thicker boundary */
   -webkit-mask: radial-gradient(
     circle at center,
     transparent 0%,
@@ -365,26 +364,46 @@ body {
   );
 }
 
-/* Glow ring */
+/* hide svg */
+.distortion-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* MAIN RING */
 .ring {
   position: absolute;
   inset: 0;
 
   background: radial-gradient(
     circle at center,
-    transparent calc(var(--progress) - 4px),
-    rgba(0, 255, 200, 1) var(--progress),
-    rgba(0, 255, 200, 0.6) calc(var(--progress) + 10px),
-    rgba(0, 255, 200, 0.25) calc(var(--progress) + 20px),
-    transparent calc(var(--progress) + 28px)
+    transparent calc(var(--progress) - 6px),
+
+    rgba(255, 255, 255, 0.9) calc(var(--progress) - 2px),
+    rgba(120, 220, 255, 1) var(--progress),
+    rgba(90, 180, 255, 0.7) calc(var(--progress) + 14px),
+    rgba(120, 200, 255, 0.3) calc(var(--progress) + 30px),
+
+    transparent calc(var(--progress) + 45px)
   );
 
-  /* heavier, cinematic feel */
-  filter: blur(10px);
+  /* 🔥 distortion ONLY on ring */
+  filter: blur(14px) url(#distortion);
 
-  /* makes glow feel like light instead of flat color */
   mix-blend-mode: screen;
-
-  pointer-events: none;
 }
 
+/* SECONDARY RIPPLE */
+.ring.secondary {
+  opacity: 0.35;
+
+  background: radial-gradient(
+    circle at center,
+    transparent calc(var(--progress) - 25px),
+    rgba(120, 200, 255, 0.4) calc(var(--progress) - 10px),
+    transparent calc(var(--progress) + 35px)
+  );
+
+  filter: blur(20px);
+}
