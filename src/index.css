@@ -319,3 +319,57 @@ body {
 html, body, *, *:hover {
   cursor: none !important;
 }
+
+
+/* Loader overlay */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+
+  --progress: 0%;
+
+  background: #0b0f14;
+
+  /* smoother edge + thicker boundary */
+  -webkit-mask: radial-gradient(
+    circle at center,
+    transparent 0%,
+    transparent var(--progress),
+    black calc(var(--progress) + 3px),
+    black 100%
+  );
+
+  mask: radial-gradient(
+    circle at center,
+    transparent 0%,
+    transparent var(--progress),
+    black calc(var(--progress) + 3px),
+    black 100%
+  );
+}
+
+/* Glow ring */
+.ring {
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at center,
+    transparent calc(var(--progress) - 4px),
+    rgba(0, 255, 200, 1) var(--progress),
+    rgba(0, 255, 200, 0.6) calc(var(--progress) + 10px),
+    rgba(0, 255, 200, 0.25) calc(var(--progress) + 20px),
+    transparent calc(var(--progress) + 28px)
+  );
+
+  /* heavier, cinematic feel */
+  filter: blur(10px);
+
+  /* makes glow feel like light instead of flat color */
+  mix-blend-mode: screen;
+
+  pointer-events: none;
+}
+
