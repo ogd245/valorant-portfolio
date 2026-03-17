@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-iimport { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function AdminStatus() {
 
