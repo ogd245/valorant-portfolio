@@ -320,6 +320,11 @@ html, body, *, *:hover {
   cursor: none !important;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
 
 /* Loader overlay */
 .loader {
