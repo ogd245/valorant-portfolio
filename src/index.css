@@ -321,8 +321,8 @@ html, body, *, *:hover {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  body {
-    cursor: auto;
+  html, body, * {
+    cursor: auto !important;
   }
 }
 
