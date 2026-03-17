@@ -320,10 +320,20 @@ html, body, *, *:hover {
   cursor: none !important;
 }
 
-@media (hover: none) and (pointer: coarse) {
+@media (hover: hover) and (pointer: fine) {
+  html, body, * {
+    cursor: url("/jett-knife.cur"), auto !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
   html, body, * {
     cursor: auto !important;
   }
+}
+
+body {
+  cursor: none;
 }
 
 /* Loader overlay */

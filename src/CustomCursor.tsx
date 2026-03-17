@@ -4,29 +4,30 @@ export default function CustomCursor() {
   const cursorRef = useRef<HTMLImageElement>(null);
   const [isHover, setIsHover] = useState(false);
 
+  // 👇 detect touch device
+  const isTouch =
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+  // 👇 STOP rendering on mobile
+  if (isTouch) return null;
+
   useEffect(() => {
+    let x = -100;
+    let y = -100;
+
     const move = (e: MouseEvent) => {
-      const x = e.clientX;
-      const y = e.clientY;
+      x = e.clientX;
+      y = e.clientY;
 
-      // smooth instant movement (no lag)
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `
-          translate(${x}px, ${y}px) translate(-50%, -50%)
-        `;
-      }
-
-      // detect clickable elements
       const el = document.elementFromPoint(x, y);
 
       if (
         el &&
-        (
-          el.closest("a, button") ||
+        (el.closest("a, button") ||
           el.closest("[role='button']") ||
           (el as HTMLElement).onclick ||
-          window.getComputedStyle(el).cursor === "pointer"
-        )
+          window.getComputedStyle(el).cursor === "pointer")
       ) {
         setIsHover(true);
       } else {
@@ -34,7 +35,15 @@ export default function CustomCursor() {
       }
     };
 
+    const animate = () => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(animate);
+    };
+
     window.addEventListener("mousemove", move);
+    animate();
 
     return () => {
       window.removeEventListener("mousemove", move);
