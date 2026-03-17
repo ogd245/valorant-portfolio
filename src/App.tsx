@@ -7,6 +7,7 @@
   import NotFound from "./pages/NotFound";
   import Status from "./pages/status";
 
+  console.log("ENV CHECK:", import.meta.env.VITE_SUPABASE_URL);
   const queryClient = new QueryClient();
 
   const App = () => (
