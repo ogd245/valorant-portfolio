@@ -8,7 +8,7 @@ import NotFound from "./pages/NotFound";
 import Status from "./pages/status";
 
 
-<h1>OGD TEST DEPLOY 🔥</h1>
+
 
 const queryClient = new QueryClient(); // ✅ ADD THIS
 

@@ -291,3 +291,45 @@
   .stagger-5 { animation-delay: 0.5s; }
   .stagger-6 { animation-delay: 0.6s; }
 }
+
+html, body, * {
+  cursor: url("/jett-knife.cur") 4 4, auto !important;
+}
+
+input, textarea, button, a {
+  cursor: url("/jett-knife.cur") 4 4, auto !important;
+}
+
+body {
+  cursor: none;
+}
+
+@keyframes slash {
+  0% {
+    opacity: 1;
+    transform: translate(-30px, -2px) rotate(-25deg) scaleX(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-30px, -2px) rotate(-25deg) scaleX(1.5);
+  }
+}
+
+/* hide cursor EVERYWHERE */
+html, body, * {
+  cursor: none !important;
+}
+
+html, body, {
+  cursor: none !important;
+}
+
+/* specifically kill pointer styles */
+button,
+a,
+[role="button"],
+input,
+textarea,
+select {
+  cursor: none !important;
+}
