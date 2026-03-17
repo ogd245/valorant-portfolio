@@ -1,54 +1,160 @@
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
-
-export default function Admin() {
-  const [loading, setLoading] = useState(false);
-
-  const updateStatus = async (status: string) => {
-    setLoading(true);
-    await supabase
+import { supabase } from "@/lib/supabase";
+useEffect(() => {
+  const loadStatus = async () => {
+    const { data, error } = await supabase
       .from("status")
-      .update({ activity: status })
+      .select("*")
+      .eq("id", 1)
+      .single();
+
+    if (data) {
+      setActivity(data.activity);
+      setGamemode(data.gamemode);
+      setAgent(data.agent);
+      setCustomStatus(data.custom_status ?? "none");
+    }
+
+    if (error) {
+      console.error("Failed to load status:", error);
+    }
+  };
+
+  loadStatus();
+}, []);
+export default function AdminStatus() {
+
+  const [activity, setActivity] = useState("offline");
+  const [gamemode, setGamemode] = useState("none");
+  const [agent, setAgent] = useState("none");
+  const [customStatus, setCustomStatus] = useState("none");
+
+
+
+  
+  const updateStatus = async (
+    newActivity: string,
+    newGamemode: string,
+    newAgent: string,
+    newCustomStatus: string
+  ) => {
+
+    const { error } = await supabase
+      .from("status")
+      .update({
+        activity: newActivity,
+        gamemode: newGamemode,
+        agent: newAgent,
+        custom_status: newCustomStatus,
+        updated_at: new Date()
+      })
       .eq("id", 1);
-    setLoading(false);
+
+    if (error) {
+      console.error("Supabase update error:", error);
+    }
+  };
+
+  const handleActivityChange = (value: string) => {
+    setActivity(value);
+    updateStatus(value, gamemode, agent, customStatus);
+  };
+
+  const handleGamemodeChange = (value: string) => {
+    setGamemode(value);
+    updateStatus(activity, value, agent, customStatus);
+  };
+
+  const handleAgentChange = (value: string) => {
+    setAgent(value);
+    updateStatus(activity, gamemode, value, customStatus);
+  };
+
+  const handleCustomStatusChange = (value: string) => {
+    setCustomStatus(value);
+    updateStatus(activity, gamemode, agent, value);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-6 p-6">
-      
-      <h1 className="text-2xl font-bold">Status Control</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-8 bg-background text-foreground">
 
-      <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
+      <h1 className="text-4xl font-bold">Status Control</h1>
 
-        <button
-          onClick={() => updateStatus("online")}
-          className="bg-green-600 py-4 rounded-xl text-lg active:scale-95"
+      {/* Activity */}
+      <div className="flex flex-col gap-2 w-64">
+        <label className="text-sm text-muted-foreground">Activity</label>
+        <select
+          value={activity}
+          onChange={(e) => handleActivityChange(e.target.value)}
+          className="p-3 rounded-lg bg-secondary text-foreground border border-border"
         >
-          🟢 Online
-        </button>
-
-        <button
-          onClick={() => updateStatus("offline")}
-          className="bg-red-600 py-4 rounded-xl text-lg active:scale-95"
-        >
-          🔴 Offline
-        </button>
-
-        <button
-          onClick={() => updateStatus("playing")}
-          className="bg-purple-600 py-4 rounded-xl text-lg active:scale-95 col-span-2"
-        >
-          🎮 Playing
-        </button>
-
+          <option value="offline">Offline</option>
+          <option value="afk">AFK</option>
+          <option value="in game">In Game</option>
+          <option value="in match">In Match</option>
+        </select>
       </div>
 
-      {loading && <p className="text-sm opacity-70">Updating...</p>}
+      {/* Agent */}
+      <div className="flex flex-col gap-2 w-64">
+        <label className="text-sm text-muted-foreground">Agent</label>
+
+        <select
+          value={agent}
+          onChange={(e) => handleAgentChange(e.target.value)}
+          className="p-3 rounded-lg bg-secondary text-foreground border border-border"
+        >
+          <option value="none">None</option>
+          <option value="Jett">Jett</option>
+          <option value="Reyna">Reyna</option>
+          <option value="Raze">Raze</option>
+          <option value="Chamber">Chamber</option>
+          <option value="Omen">Omen</option>
+          <option value="Sova">Sova</option>
+        </select>
+      </div>
+
+      {/* Gamemode */}
+      <div className="flex flex-col gap-2 w-64">
+        <label className="text-sm text-muted-foreground">Gamemode</label>
+
+        <select
+          value={gamemode}
+          onChange={(e) => handleGamemodeChange(e.target.value)}
+          className="p-3 rounded-lg bg-secondary text-foreground border border-border"
+        >
+          <option value="none">None</option>
+          <option value="competitive">Competitive</option>
+          <option value="unrated">Unrated</option>
+          <option value="swiftplay">Swiftplay</option>
+          <option value="deathmatch">Deathmatch</option>
+        </select>
+      </div>
+
+      {/* Custom Status */}
+      <div className="flex flex-col gap-2 w-64">
+        <label className="text-sm text-muted-foreground">Custom Status</label>
+
+        <select
+          value={customStatus}
+          onChange={(e) => handleCustomStatusChange(e.target.value)}
+          className="p-3 rounded-lg bg-secondary text-foreground border border-border"
+        >
+          <option value="none">None</option>
+          <option value="side quests">Side Quests</option>
+          <option value="touching grass">Touching Grass</option>
+          <option value="cooking">Cooking</option>
+          <option value="reviewing vods">Reviewing VODs</option>
+          <option value="aim training">Aim Training</option>
+          <option value="watching vct">Watching VCT</option>
+          <option value="studying lineups">Studying Lineups</option>
+        </select>
+      </div>
+
+      <p className="text-sm text-muted-foreground">
+        Changes update your website instantly.
+      </p>
+
     </div>
   );
 }
