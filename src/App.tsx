@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Status from "./pages/status";
-import Loader from "./components/ShockwaveLoader";
+import Loader from "./components/Loader";
 
 const queryClient = new QueryClient();
 
