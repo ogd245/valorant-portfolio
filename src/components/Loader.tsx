@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function ShockwaveLoader() {
+export default function Loader() {
   const loaderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
