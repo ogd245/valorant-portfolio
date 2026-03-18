@@ -5,7 +5,7 @@ export default function Loader() {
 
   useEffect(() => {
     let start: number | null = null;
-    const duration = 3000;
+    const duration = 2000;
 
     const animate = (timestamp: number) => {
       if (!start) start = timestamp;
