@@ -101,12 +101,54 @@ const ClipsSection = () => {
 
   const clips: Clip[] = [
     { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpg',
-      video: '/clips/clutch1.mp4', 
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4', 
       views: '0', 
       duration: '0:42' },
 
+      { title: '123',
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4', 
+      views: '0', 
+      duration: '0:42' },
+      
+      { title: '123',
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4', 
+      views: '0', 
+      duration: '0:42' },
+      
+      { title: '123',
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4', 
+      views: '0', 
+      duration: '0:42' },
+      
+      { title: '123',
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4', 
+      views: '0', 
+      duration: '0:42' },
+      
+
+      { title: '123',
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4', 
+      views: '0', 
+      duration: '0:42' },
+      
+
+      { title: '123',
+      thumbnail: '/thumbnails/clutch1.jpeg',
+      video: '/clips/clutch1.mp4.mp4.mp4', 
+      views: '0', 
+      duration: '0:42' },
+      
+
+
   ];
+
+  
 
   const visibleClips = clips.slice(0, visibleCount);
   const hasMoreClips = visibleCount < clips.length;
