@@ -7,7 +7,6 @@ interface Clip {
   title: string;
   thumbnail: string;
   video: string;
-  views: string;
   duration: string;
 }
 
@@ -16,7 +15,7 @@ interface ClipCardProps extends Clip {
   onPlay: (clip: Clip) => void;
 }
 
-const ClipCard = ({ title, thumbnail, views, duration, video, index, onPlay }: ClipCardProps) => {
+const ClipCard = ({ title, thumbnail, duration, video, index, onPlay }: ClipCardProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
@@ -49,7 +48,7 @@ const ClipCard = ({ title, thumbnail, views, duration, video, index, onPlay }: C
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-      onClick={() => onPlay({ title, thumbnail, views, duration, video })}
+      onClick={() => onPlay({ title, thumbnail, duration, video })}
     >
       <Card
         className="group cursor-pointer overflow-hidden transition-transform duration-200 ease-out"
@@ -81,7 +80,7 @@ const ClipCard = ({ title, thumbnail, views, duration, video, index, onPlay }: C
           <h3 className="font-display text-lg font-semibold mb-1 group-hover:text-primary transition-colors">
             {title}
           </h3>
-          <p className="text-muted-foreground text-sm">{views} views</p>
+          
         </CardContent>
       </Card>
     </div>
@@ -100,51 +99,37 @@ const ClipsSection = () => {
   }, []);
 
   const clips: Clip[] = [
-    { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4', 
-      views: '0', 
-      duration: '0:42' },
-
-      { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4', 
-      views: '0', 
+   
+    { title: '6K deathmatch',
+      thumbnail: '/thumbnail/Jett cute.png',
+      video: '/clips/6k deatmatch.mp4',  
+      duration: '0:19' },
+      
+    { title: 'Ace??',
+      thumbnail: '/thumbnail/Jett cute.png',
+      video: '/clips/Ace.mp4',  
+      duration: '0:59' },
+      
+    { title: 'Jett 4K',
+      thumbnail: '/thumbnail/Jett cute.png',
+      video: '/clips/Jett 4K.mp4',  
+      duration: '0:25' },
+      
+    { title: '"OGD touch grass"',
+      thumbnail: '/thumbnail/Jett cute.png',
+      video: '/clips/OGD touch grass.mp4',  
       duration: '0:42' },
       
-      { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4', 
-      views: '0', 
-      duration: '0:42' },
+    { title: 'Selfie Time',
+      thumbnail: '/thumbnail/Jett cute.png',
+      video: '/clips/Selfie time.mp4',  
+      duration: '0:30' },
       
-      { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4', 
-      views: '0', 
-      duration: '0:42' },
+    { title: 'Spider Jett',
+      thumbnail: '/thumbnail/Jett cute.png',
+      video: '/clips/Spider Sense.mp4',  
+      duration: '0:48' },
       
-      { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4', 
-      views: '0', 
-      duration: '0:42' },
-      
-
-      { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4', 
-      views: '0', 
-      duration: '0:42' },
-      
-
-      { title: '123',
-      thumbnail: '/thumbnails/clutch1.jpeg',
-      video: '/clips/clutch1.mp4.mp4.mp4', 
-      views: '0', 
-      duration: '0:42' },
-      
-
 
   ];
 

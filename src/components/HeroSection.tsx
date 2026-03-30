@@ -78,7 +78,7 @@ const HeroSection = () => {
             className="text-primary font-display text-lg md:text-xl uppercase tracking-[0.3em] mb-6 opacity-0 animate-fade-up"
             style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
           >
-            JETT JETT JETT JETT
+            Your friendly neighborhood Jett main
           </p>
 
           {/* Main Headline */}
@@ -86,8 +86,9 @@ const HeroSection = () => {
             className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 opacity-0 animate-fade-up leading-tight"
             style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}
           >
-            <span className="text-foreground">JETT JETT </span>
-            <span className="gradient-text">JETT JETT</span>
+            <span className="gradient-text"> O</span>
+            <span className="text-foreground">G</span>
+            <span className="gradient-text">D</span>
           </h1>
 
           {/* Subtitle */}
@@ -95,7 +96,7 @@ const HeroSection = () => {
             className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-10 opacity-0 animate-fade-up font-body"
             style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}
           >
-            JETT JETT JETT JETT JETT
+           Hai, My name is OGD and as you might have guessed that i like jett a lot. this is a collection of my stats, clips, and all things just for fun.
           </p>
 
           {/* CTA Buttons */}
