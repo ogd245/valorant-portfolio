@@ -302,6 +302,7 @@ input, textarea, button, a {
 
 body {
   cursor: none;
+  font-family: inherit;
 }
 
 @keyframes slash {

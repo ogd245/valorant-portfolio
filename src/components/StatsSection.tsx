@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from "@/lib/supabase";
 import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-
+import SearchRank from "@/components/SearchRank";
 interface StatCardProps {
   icon?: React.ReactNode;
   label: string;
@@ -25,7 +25,7 @@ interface StatCardProps {
   peakRankImage?: string;
 }
 
-const StatCard = ({ 
+export const StatCard = ({ 
   icon, 
   label, 
   value, 
@@ -523,6 +523,7 @@ const activityColors: Record<string, string> = {
               {...stat} 
               index={index}
               isLoading={isLoading && index < 2}
+              
             />
           ))}
         </div>
@@ -561,13 +562,17 @@ const activityColors: Record<string, string> = {
                     />
                   );
                 })}
+                
               </div>
             </CollapsibleContent>
           </Collapsible>
+          <SearchRank />
         </div>
       </div>
     </section>
+    
   );
+  
 };
 
 export default StatsSection;
