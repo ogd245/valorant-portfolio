@@ -7,7 +7,7 @@ export default function SearchRank() {
   const [region, setRegion] = useState("ap");
   const [loading, setLoading] = useState(false);
 
-  const [topAgent, setTopAgent] = useState("Jett");
+  const [topAgent, setTopAgent] = useState("Unknown");
   const [searchedStats, setSearchedStats] = useState<any>(null);
   const [agentImages, setAgentImages] = useState<Record<string, string>>({});
 
@@ -16,15 +16,16 @@ export default function SearchRank() {
     return `https://media.valorant-api.com/competitivetiers/${uuid}/${tierId}/largeicon.png`;
   };
 
-  // 🔥 FETCH AGENT IMAGES (NO HARDCODING)
+  // 🔥 FETCH AGENT IMAGES
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const res = await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true");
+        const res = await fetch(
+          "https://valorant-api.com/v1/agents?isPlayableCharacter=true"
+        );
         const json = await res.json();
 
         const map: Record<string, string> = {};
-
         json.data.forEach((agent: any) => {
           map[agent.displayName] = agent.displayIcon;
         });
@@ -39,7 +40,11 @@ export default function SearchRank() {
   }, []);
 
   // 🔥 SUPABASE (REAL STATS)
-  const fetchPlayerStats = async (name: string, tag: string, region: string) => {
+  const fetchPlayerStats = async (
+    name: string,
+    tag: string,
+    region: string
+  ) => {
     const { data, error } = await supabase.functions.invoke("valorant-rank", {
       body: { name, tag, region },
     });
@@ -56,45 +61,56 @@ export default function SearchRank() {
     };
   };
 
-  // 🔥 TOP AGENT
-  const getTopAgent = async (region: string, name: string, tag: string) => {
-    try {
-      const res = await fetch(
-        `https://api.henrikdev.xyz/valorant/v3/matches/${region}/${name}/${tag}?size=5`,
-        {
-          headers: {
-            Authorization: "HDEV-192356a1-7c72-42d9-bf58-534ec248141a",
-          },
-        }
-      );
+  // 🔥 TOP AGENT (FULL FIXED)
+  const getTopAgent = async (
+  region: string,
+  name: string,
+  tag: string
+) => {
+  try {
+    const res = await fetch(
+      `https://api.henrikdev.xyz/valorant/v3/matches/${region}/${name}/${tag}?size=40`,
+      {
+        headers: {
+          Authorization: "HDEV-192356a1-7c72-42d9-bf58-534ec248141a",
+        },
+      }
+    );
 
-      const json = await res.json();
-      const matches = json.data || [];
+    const json = await res.json();
+    const matches = json.data || [];
 
-      const agentCount: Record<string, number> = {};
+    const agentCount: Record<string, number> = {};
 
-      matches.forEach((match: any) => {
-        const player = match?.players?.all_players?.find(
-          (p: any) =>
-  p.name.toLowerCase() === name.toLowerCase() &&
-  p.tag.toLowerCase() === tag.toLowerCase()
+    // 🔥 COUNT FROM ALL MATCHES (NO FILTER)
+    matches.forEach((match: any) => {
+      const player = match?.players?.all_players?.find((p: any) => {
+        return (
+          p.name?.toLowerCase().trim() === name.toLowerCase().trim() &&
+          p.tag?.toLowerCase().trim() === tag.toLowerCase().trim()
         );
-
-        if (player?.character) {
-          const agent = player.character;
-          agentCount[agent] = (agentCount[agent] || 0) + 1;
-        }
       });
 
-      const top = Object.entries(agentCount).sort(
-        (a, b) => b[1] - a[1]
-      )[0]?.[0];
-console.log("agentCount:", agentCount);
-      return top || "Jett";
-    } catch {
-      return "Jett";
-    }
-  };
+      if (player?.character) {
+        const agent = player.character;
+        agentCount[agent] = (agentCount[agent] || 0) + 1;
+      }
+    });
+
+    console.log("matches fetched:", matches.length);
+    console.log("agentCount:", agentCount);
+
+    // 🔥 GET TOP AGENT
+    const top = Object.entries(agentCount).sort(
+      (a, b) => b[1] - a[1]
+    )[0]?.[0];
+
+    return top || "Unknown";
+  } catch (err) {
+    console.error("Top agent fetch failed:", err);
+    return "Unknown";
+  }
+};
 
   const handleSearch = async () => {
     if (!riotId.includes("#")) {
@@ -102,10 +118,14 @@ console.log("agentCount:", agentCount);
       return;
     }
 
-    const [name, tag] = riotId.split("#");
+    const [nameRaw, tagRaw] = riotId.split("#");
+
+    const name = nameRaw.trim();
+    const tag = tagRaw.trim();
 
     setLoading(true);
     setSearchedStats(null);
+    setTopAgent("Unknown");
 
     try {
       const stats = await fetchPlayerStats(name, tag, region);
@@ -180,15 +200,16 @@ console.log("agentCount:", agentCount);
             />
 
             <StatCard
-              label="Top Agent"
+              label="Top Agent (Last 10 Matches)"
               value={topAgent}
               subtext=""
               index={1}
               agentImage={
                 agentImages[topAgent] ||
                 agentImages[
-                  topAgent?.charAt(0).toUpperCase() + topAgent?.slice(1)
-                ] 
+                  topAgent?.charAt(0).toUpperCase() +
+                    topAgent?.slice(1)
+                ]
               }
               peakRank={searchedStats.peakRank}
               peakRankImage={
