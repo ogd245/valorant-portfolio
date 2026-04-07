@@ -96,7 +96,7 @@ const HeroSection = () => {
             className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-10 opacity-0 animate-fade-up font-body"
             style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}
           >
-           Hai, My name is OGD and as you might have guessed that i like jett a lot. this is a collection of my stats, clips, and all things just for fun.
+           Hai, My name is OGD and as you might have guessed that i like jett a lot.
           </p>
 
           {/* CTA Buttons */}
